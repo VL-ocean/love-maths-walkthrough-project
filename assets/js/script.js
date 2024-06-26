@@ -45,6 +45,8 @@ function runGame(gameType) {
         displayMultiplyQuestion(num1, num2);
     } else if (gameType === "subtract") {
         displaySubtractQuestion(num1, num2);
+    } else if (gameType === "division") {
+        displayDivisionQuestion(num1, num2);
     } else {
         alert(`Unknown game type: ${gameType}`);
         throw `Unknown game type: ${gameType}. Aborting!`;
@@ -90,6 +92,8 @@ function calculateCorrectAnswer() {
         return [operand1 * operand2, "multiply"];
     } else if (operator === "-") {
         return [operand1 - operand2, "subtract"];
+    } else if (operator === "/") {
+        return [operand1 / operand2, "division"];
     } else {
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!`;
@@ -138,5 +142,30 @@ function displayMultiplyQuestion(operand1, operand2) {
     document.getElementById('operand1').textContent = operand1;
     document.getElementById('operand2').textContent = operand2;
     document.getElementById('operator').textContent = "x";
+
+}
+
+function displayDivisionQuestion(operand1, operand2) {
+
+    let dividend = operand1 > operand2 ? operand1 * 5 : operand2 * 5;
+    let divisor = operand1 > operand2 ? operand2 : operand1;
+    
+    // To avoid dividing by 1
+    if (divisor === 1) {
+        divisor *= 2;
+        document.getElementById('operand2').textContent = divisor;
+    } else {
+        document.getElementById('operand2').textContent = divisor;
+    }
+
+    // Checks if there is a remainder, subtracts the remainder from the dividend and makes the remainder be equal to 0
+    if (dividend % divisor === 0) {
+        document.getElementById('operand1').textContent = dividend;        
+    } else {
+        dividend = dividend - dividend % divisor;
+        document.getElementById('operand1').textContent = dividend;
+    }
+    
+    document.getElementById('operator').textContent = "/";
 
 }
